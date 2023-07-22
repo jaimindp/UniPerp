@@ -10,4 +10,8 @@ contract DegenTest is Test {
     function setUp() public {
         c = new DegenContract();
     }
+
+    function test_trade() {
+        // c.trade
+    }
 }
