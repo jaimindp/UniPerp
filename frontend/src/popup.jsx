@@ -15,16 +15,16 @@ const App = () => {
         "7. Congratulations! You've successfully swapped on Uniswap by paying gas fees in an ERC20 token.",
     ]);
 
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/mtx/instructions`)
-            .then((res) => res.json())
-            .then((data) => {
-                setdata(data);
-            })
-            .catch((e) => {
-                // setdata(`err - $${e}`)
-            });
-    }, []);
+    // useEffect(() => {
+    //     fetch(`${process.env.REACT_APP_BASE_URL}/mtx/instructions`)
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setdata(data);
+    //         })
+    //         .catch((e) => {
+    //             // setdata(`err - $${e}`)
+    //         });
+    // }, []);
 
     return (
         <div
@@ -71,7 +71,7 @@ const App = () => {
                 >
                     Instructions:{' '}
                 </div>
-                {data &&
+                {/* {data &&
                     data.map((instruction) => {
                         return (
                             <div
@@ -86,7 +86,7 @@ const App = () => {
                                 }}
                             ></div>
                         );
-                    })}
+                    })} */}
                 <div style={{ marginBottom: '10%' }}></div>
             </div>
         </div>
