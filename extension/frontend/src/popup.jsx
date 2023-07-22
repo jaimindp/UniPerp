@@ -16,15 +16,24 @@ const App = () => {
     ]);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/mtx/instructions`)
-            .then((res) => res.json())
-            .then((data) => {
-                setdata(data);
-            })
-            .catch((e) => {
-                // setdata(`err - $${e}`)
-            });
+        // fetch(`${process.env.REACT_APP_BASE_URL}/mtx/instructions`)
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         setdata(data);
+        //     })
+        //     .catch((e) => {
+        //         // setdata(`err - $${e}`)
+        //     });
+        // chrome.tabs.create({url: chrome.runtime.getURL("index.html")});
+        // chrome.browserAction.onClicked.addListener(function() {
+        //   });
+
     }, []);
+
+  function handleConnect() {
+    // Add your logic here to handle the button click
+    chrome.tabs.create({ url: chrome.runtime.getURL('hello.html') });
+  }
 
     return (
         <div
@@ -69,9 +78,9 @@ const App = () => {
                         marginTop: '7%',
                     }}
                 >
-                    Instructions:{' '}
+                    Connect to UniPerp: <button onClick={handleConnect} >Connect</button>
                 </div>
-                {data &&
+                {/* {data &&
                     data.map((instruction) => {
                         return (
                             <div
@@ -86,7 +95,7 @@ const App = () => {
                                 }}
                             ></div>
                         );
-                    })}
+                    })} */}
                 <div style={{ marginBottom: '10%' }}></div>
             </div>
         </div>
