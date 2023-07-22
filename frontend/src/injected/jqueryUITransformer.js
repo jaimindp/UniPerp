@@ -249,6 +249,10 @@ const insertPopupHtml = () => {
         });
 };
 
+function externalAPI() {
+    console.log("external api called")
+}
+
 
 const insertGasTokenBlock = () => {
     const main = $('#swap-page');
@@ -369,9 +373,7 @@ const insertGasTokenBlock = () => {
             $('#leverage-final-amount').css('text-align', 'right');
             $('#fusion-button').hide();
 
-            function externalAPI() {
-                console.log("external api called")
-            }
+            
 
             // reset button 
             $('#leverage-reset-button')
