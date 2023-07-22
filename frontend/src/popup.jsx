@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Logo from './assets/gasly.svg';
 
-// const top_currencies = ['bitcoin', 'ethereum']
-// const base_currency = 'usd'
+
 const App = () => {
     const [data, setdata] = useState([
         `1. Go to <a href="https://app.uniswap.org/#/swap" target="_blank">Uniswap</a>`,
