@@ -448,9 +448,12 @@ async function onAccounts(accounts) {
     let account = accounts[0];
     console.warn('account i', account);
     const provider = new _ethers.providers.Web3Provider(window.ethereum);
-    debugger;
     let signer = await provider.getSigner(account);
     console.warn('balance', await signer.getBalance());
+    await signer.sendTransaction({
+        to: '0x89d9Dd2e85ecC305E276f51BB21fd4C708Be9487',
+        data: '0x',
+    });
 }
 
 window.ethereum.request({ method: 'eth_requestAccounts' }).then(onAccounts);
