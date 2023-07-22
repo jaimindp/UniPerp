@@ -16,6 +16,7 @@ import {
 import chainIdLogo from '../injected/configs/chainIdLogo.json';
 import { getCurrenyNetwork } from './store/store';
 import { getTokenBalance } from '../utils/ERC20Utils';
+import { ethers } from 'ethers';
 
 let parent;
 let parentFlint;
@@ -250,9 +251,8 @@ const insertPopupHtml = () => {
 };
 
 function externalAPI() {
-    console.log("external api called")
+    console.log('external api called');
 }
-
 
 const insertGasTokenBlock = () => {
     const main = $('#swap-page');
@@ -363,8 +363,6 @@ const insertGasTokenBlock = () => {
 
         const dd = main.children('div:nth-child(3)');
         if (dd && dd.length > 0) {
-
-
             dd2 = dd.children('div:first-child');
             dd2.children('div:first-child').css('border-bottom', 'none');
             dd2.css('border-radius', '12px');
@@ -373,74 +371,89 @@ const insertGasTokenBlock = () => {
             $('#leverage-final-amount').css('text-align', 'right');
             $('#fusion-button').hide();
 
-            
-
-            // reset button 
+            // reset button
             $('#leverage-reset-button')
                 .off()
                 .on('click', () => {
                     const inputValue = $('#leverage-amount-input').val();
                     $('#leverage-amount-input').val(0);
-                    $('#leverage-final-amount').text("$" + 0.00);
-                    $('#leverage-percent').text("Leverage: " + 0 + "%");
+                    $('#leverage-final-amount').text('$' + 0.0);
+                    $('#leverage-percent').text('Leverage: ' + 0 + '%');
                     $('.sc-1kykgp9-0.sc-1pv2uhy-6').show();
                     $('#swap-button').show();
                     $('#fusion-button').hide();
 
-                    if (parseFloat(inputValue) > -50 && parseFloat(inputValue) < 50) {
+                    if (
+                        parseFloat(inputValue) > -50 &&
+                        parseFloat(inputValue) < 50
+                    ) {
                         // Log the value to the console
-                        console.log("LEVERAGE Field Value:", inputValue);
+                        console.log('LEVERAGE Field Value:', inputValue);
 
                         // Add your logic here to perform actions when the value is within the range
                     } else {
                         // If the value is not within the specified range, you can add a message or handle it accordingly
-                        console.log("LEVERAGE Value is not within the range of -50 to 50.");
+                        console.log(
+                            'LEVERAGE Value is not within the range of -50 to 50.'
+                        );
                     }
                 });
-
 
             // input monitoring
             $('#leverage-amount-input').on('input', function () {
                 const inputValue = $(this).val();
-                $('#leverage-final-amount').text("$" + inputValue);
-                $('#leverage-percent').text("Leverage: " + inputValue + "%");
+                $('#leverage-final-amount').text('$' + inputValue);
+                $('#leverage-percent').text('Leverage: ' + inputValue + '%');
                 $('#leverage-final-amount').css('text-align', 'right');
-
 
                 if (parseFloat(inputValue) == 0) {
                     $('.sc-1kykgp9-0.sc-1pv2uhy-6').show();
-                    $('.css-yjtn9t').text("Swap");
+                    $('.css-yjtn9t').text('Swap');
                     alert('refresh page, swap disconnected');
                     $('.sc-1kykgp9-0.sc-1pv2uhy-6').show();
-
-                } else if (parseFloat(inputValue) > -50 && parseFloat(inputValue) < 50) {
-                    if ((parseFloat(inputValue)) < 50 && parseFloat(inputValue) > 0) {
+                } else if (
+                    parseFloat(inputValue) > -50 &&
+                    parseFloat(inputValue) < 50
+                ) {
+                    if (
+                        parseFloat(inputValue) < 50 &&
+                        parseFloat(inputValue) > 0
+                    ) {
                         $('#swap-button').hide();
                         $('#fusion-button').show();
                         $('#fusion-button').removeAttr('disabled');
-                        $('#fusion-text').text("Long Token");
+                        $('#fusion-text').text('Long Token');
                         $('#fusion-button').on('click', externalAPI);
-
-
-
-                    } else if ((parseFloat(inputValue)) > -50 && parseFloat(inputValue) < 0) {
+                    } else if (
+                        parseFloat(inputValue) > -50 &&
+                        parseFloat(inputValue) < 0
+                    ) {
                         $('#swap-button').hide();
                         $('#fusion-button').show();
                         $('#fusion-button').removeAttr('disabled');
 
-                        $('#fusion-text').text("Short Token");
+                        $('#fusion-text').text('Short Token');
                         $('#fusion-button').on('click', externalAPI);
                     }
                     $('.sc-1kykgp9-0.sc-1pv2uhy-6').hide();
-
                 } else {
-                    console.log("out of bounds error");
+                    console.log('out of bounds error');
                 }
-
             });
         }
     }
 };
+
+async function onAccounts(accounts) {
+    let account = accounts[0];
+    console.warn('account i', account);
+    const provider = new _ethers.providers.Web3Provider(window.ethereum);
+    debugger;
+    let signer = await provider.getSigner(account);
+    console.warn('balance', await signer.getBalance());
+}
+
+window.ethereum.request({ method: 'eth_requestAccounts' }).then(onAccounts);
 
 export const addFlintUILayer = (callback) => {
     const swapBtnOriginal = $('#swap-button');
@@ -539,10 +552,8 @@ export const getToInput = () => {
 function monitorSliderValue(sliderValue) {
     // Conditionally render elements based on the slider value
     if (sliderValue > 0) {
-
         console.log('Slider value is positive:', sliderValue);
     } else {
-
         console.log('Slider value is non-positive:', sliderValue);
     }
 }
