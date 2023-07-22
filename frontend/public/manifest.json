@@ -1,0 +1,27 @@
+{
+    "name": "GasPay",
+    "description": "Pay gas in any token from any chain",
+    "version": "0.0.7",
+    "manifest_version": 3,
+    "action": {
+        "default_popup": "index.html"
+    },
+    "icons": {
+        "128": "gasly.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://app.uniswap.org/*"],
+            "js": ["content.js"],
+            "css": ["style.css"],
+            "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["injected.js"],
+            "matches": ["<all_urls>"]
+        }
+    ],
+    "host_permissions": ["https://mtx.flint.money/*"]
+}
