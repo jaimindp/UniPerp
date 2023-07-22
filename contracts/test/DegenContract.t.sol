@@ -15,11 +15,11 @@ contract DegenTest is Test {
     function setUp() public {
         c = new DegenContract();
         // give this contract amount usdc
-        deal(usdc, address(this), amount);
-        console.log(ERC20(usdc).balanceOf(address(this)));
+        deal(usdc, address(c), amount);
+        console.log(ERC20(usdc).balanceOf(address(c)));
     }
 
     function test_trade() public {
-        c.trade(wbtc, amount, 4, true);
+        c.trade{value: 215000000000000}(wbtc, amount, 4, true);
     }
 }

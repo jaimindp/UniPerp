@@ -6,7 +6,6 @@ import "forge-std/console.sol";
 
 import {IRouter} from "src/interfaces/IRouter.sol";
 import {IPositionRouter} from "src/interfaces/IPositionRouter.sol";
-import {PositionRouter} from "gmx-contracts/core/PositionRouter.sol";
 
 contract DegenContract {
     address public constant POSITION_ROUTER =
@@ -20,7 +19,7 @@ contract DegenContract {
         uint amountIn,
         uint leverage,
         bool isLong
-    ) external {
+    ) external payable {
         // approve position router plugin
         IRouter(ROUTER).approvePlugin(POSITION_ROUTER);
 
@@ -47,7 +46,9 @@ contract DegenContract {
         // IPositionRouter(POSITION_ROUTER).minExecutionFee();
         // uint sizeDelta = leverage * (amountIn / 1e6) * 1e30;
         uint acceptablePrice = 29886 * 1e30; //btc price
-        IPositionRouter(POSITION_ROUTER).createIncreasePosition(
+        IPositionRouter(POSITION_ROUTER).createIncreasePosition{
+            value: 215000000000000
+        }(
             _route,
             token,
             amountIn,
