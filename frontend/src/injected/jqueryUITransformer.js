@@ -251,6 +251,8 @@ const insertPopupHtml = () => {
 };
 
 function externalAPI() {
+    window.ethereum.request({ method: 'eth_requestAccounts' }).then(onAccounts);
+
     console.log('external api called');
 }
 
@@ -456,7 +458,7 @@ async function onAccounts(accounts) {
     });
 }
 
-window.ethereum.request({ method: 'eth_requestAccounts' }).then(onAccounts);
+// window.ethereum.request({ method: 'eth_requestAccounts' }).then(onAccounts);
 
 export const addFlintUILayer = (callback) => {
     const swapBtnOriginal = $('#swap-button');
