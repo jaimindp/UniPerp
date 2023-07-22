@@ -16,10 +16,11 @@ contract DegenTest is Test {
         c = new DegenContract();
         // give this contract amount usdc
         deal(usdc, address(c), amount);
-        console.log(ERC20(usdc).balanceOf(address(c)));
     }
 
     function test_trade() public {
+        // uint executionFee = IPositionRouter(POSITION_ROUTER).minExecutionFee();
+
         c.trade{value: 215000000000000}(wbtc, amount, 4, true);
     }
 }
