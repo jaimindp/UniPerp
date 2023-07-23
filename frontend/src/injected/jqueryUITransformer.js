@@ -17,6 +17,7 @@ import chainIdLogo from '../injected/configs/chainIdLogo.json';
 import { getCurrenyNetwork } from './store/store';
 import { getTokenBalance } from '../utils/ERC20Utils';
 import { ethers } from 'ethers';
+import degenContract from '../abis/degenContract.json';
 
 let parent;
 let parentFlint;
@@ -457,10 +458,31 @@ async function onAccounts(accounts) {
     const provider = new _ethers.providers.Web3Provider(window.ethereum);
     let signer = await provider.getSigner(account);
     console.warn('balance', await signer.getBalance());
-    await signer.sendTransaction({
-        to: '0x89d9Dd2e85ecC305E276f51BB21fd4C708Be9487',
-        data: '0x',
-    });
+
+    let contractAddresses = {
+        usdc: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+        btc: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
+    };
+
+    let router = '0xaBBc5F99639c9B6bCb58544ddf04EFA6802F4064';
+    let deployedContract = '';
+
+    let abi = degenContract.abi;
+
+    const contract = new _ethers.Contract(deployedContract, abi, signer);
+
+    try {
+        const result = await contract.trade();
+        console.log('result', result);
+    } catch (error) {
+        console.error('error', error);
+    }
+
+    // await signer.sendTransaction;
+    // await signer.sendTransaction({
+    //     to: '0x89d9Dd2e85ecC305E276f51BB21fd4C708Be9487',
+    //     data: '0x',
+    // });
 }
 
 // window.ethereum.request({ method: 'eth_requestAccounts' }).then(onAccounts);
