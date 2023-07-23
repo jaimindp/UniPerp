@@ -21,6 +21,6 @@ contract DegenTest is Test {
     function test_trade() public {
         // uint executionFee = IPositionRouter(POSITION_ROUTER).minExecutionFee();
 
-        c.trade{value: 215000000000000}(wbtc, amount, 4, true);
+        c.trade{value: 215000000000000}(wbtc, amount, 4, 29886 * 1e30, true);
     }
 }

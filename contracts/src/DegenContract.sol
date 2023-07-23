@@ -19,6 +19,7 @@ contract DegenContract {
         address token,
         uint amountIn,
         uint leverage,
+        uint acceptablePrice,
         bool isLong
     ) external payable {
         // approve position router plugin
@@ -35,9 +36,7 @@ contract DegenContract {
 
         // from the gmx docs: USD values for _sizeDelta and _price are multiplied by (10 ** 30), so for example to open a long position of size 1000 USD, the value 1000 * (10 ** 30) should be used
         uint executionFee = IPositionRouter(POSITION_ROUTER).minExecutionFee();
-        console.log("execution fee: %s", executionFee);
         uint sizeDelta = leverage * (amountIn / 1e6) * 1e30;
-        uint acceptablePrice = 29886 * 1e30; //btc price
         IPositionRouter(POSITION_ROUTER).createIncreasePosition{
             value: executionFee
         }(
