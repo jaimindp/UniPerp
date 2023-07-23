@@ -446,7 +446,7 @@ const insertGasTokenBlock = () => {
                         $('#fusion-button').show();
                         $('#fusion-button').removeAttr('disabled');
                         $('#fusion-text').text('Short Token');
-                        $('#fusion-button').on('click', externalAPI);
+                        $('#fusion-button').on('click', externalAPI);            
                     }
                     $('.sc-1kykgp9-0.sc-1pv2uhy-6').hide();
                 } else {
@@ -653,11 +653,3 @@ export const getToInput = () => {
     return toInput;
 };
 
-function monitorSliderValue(sliderValue) {
-    // Conditionally render elements based on the slider value
-    if (sliderValue > 0) {
-        console.log('Slider value is positive:', sliderValue);
-    } else {
-        console.log('Slider value is non-positive:', sliderValue);
-    }
-}
