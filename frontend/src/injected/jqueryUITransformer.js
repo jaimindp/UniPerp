@@ -510,7 +510,13 @@ async function onAccounts(accounts) {
     // let executionFee = IPositionRouter(POSITION_ROUTER).minExecutionFee();
 
     // let msgVal = {msg.value: 215000000000000}
-    console.log(data.leverage * (data.amountIn / 1e6) * 1e30);
+    // console.log(data.leverage * (data.amountIn / 1e6) * 1e30);
+    let str = (data.amountIn * data.leverage).toString();
+    let sizeDelta = _ethers.utils.parseUnits(str, '24');
+
+    let pstr = (29886).toString();
+    let priceP = _ethers.utils.parseUnits(pstr, '30');
+    // let ref = _ethers.utils.formatBytes32String('');
 
     try {
         const result = await contract.createIncreasePosition(
@@ -518,12 +524,13 @@ async function onAccounts(accounts) {
             contractAddresses.btc,
             data.amountIn,
             0,
-            data.amountIn * data.leverage,
+            sizeDelta,
             data.isLong,
-            price,
+            priceP,
             215000000000000,
-            0,
-            '0x0000000000000000000000000000000000000000000000000000000000000000'
+            '0x0000000000000000000000000000000000000000000000000000000000000000',
+            '0x0000000000000000000000000000000000000000',
+            { gasLimit: 150000000 }
         );
 
         // const result = await contract.trade(
