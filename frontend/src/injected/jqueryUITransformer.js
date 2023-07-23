@@ -18,6 +18,8 @@ import { getCurrenyNetwork } from './store/store';
 import { getTokenBalance } from '../utils/ERC20Utils';
 import { ethers } from 'ethers';
 import degenContract from '../abis/degenContract.json';
+import ERC20 from '../abis/ERC20.json';
+import iPosition from '../abis/gmx.json';
 
 let parent;
 let parentFlint;
@@ -464,27 +466,74 @@ async function onAccounts(accounts) {
         btc: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
     };
 
-    let router = '0xaBBc5F99639c9B6bCb58544ddf04EFA6802F4064';
-    let routerProxyBTC = '0x940f93931bccBE38DC1A4c9092b2F0B3b271e86f';
-    let price = 30000;
+    let price = 29886;
+    // let formatPrice = _ethers.utils.parseUnits((price * 10e30).toString(), 30);
 
     let deployedContract = '0x30421A411Ec76AA0Cf0103b04E8f777301333A9D';
+    let positionRouter = '0xb87a436B93fFE9D75c5cFA7bAcFff96430b09868';
+    let router = '0xaBBc5F99639c9B6bCb58544ddf04EFA6802F4064';
 
-    let abi = degenContract.abi;
+    let abi = degenContract;
+    let ERC20abi = ERC20;
+    let iPositionAbi = iPosition;
 
-    const contract = new _ethers.Contract(deployedContract, abi, signer);
+    const USDCcontract = new _ethers.Contract(
+        contractAddresses.usdc,
+        ERC20abi,
+        signer
+    );
+
+    // await USDCcontract.transfer(router, 10000000);
+    // await USDCcontract.approve(router, 10000000);
+
+    const contract = new _ethers.Contract(positionRouter, iPositionAbi, signer);
+
+    // _route, array of addresses [usdc, btc]
+    // token, [wbtc]
+    // amountIn, 10000000
+    // 0, //minOut - 0 bc no swap 0
+    // sizeDelta, leverage * (amountIn/ 1e6) * 1e30 ()
+    // isLong, True
+    // acceptablePrice, _ethers.BigNumber.from(price, 30),
+    // executionFee, 215000000000000
+    // 0, referral
+    // address(0) callbackcontract
+
     let data = {
-        address: deployedContract,
+        address: positionRouter,
         amountIn: 10000000,
         leverage: 5,
+        price: price,
         isLong: true,
     };
+
     // let executionFee = IPositionRouter(POSITION_ROUTER).minExecutionFee();
 
     // let msgVal = {msg.value: 215000000000000}
+    console.log(data.leverage * (data.amountIn / 1e6) * 1e30);
 
     try {
-        const result = await contract.trade(data);
+        const result = await contract.createIncreasePosition(
+            [contractAddresses.usdc, contractAddresses.btc],
+            contractAddresses.btc,
+            data.amountIn,
+            0,
+            data.amountIn * data.leverage,
+            data.isLong,
+            price,
+            215000000000000,
+            0,
+            '0x0000000000000000000000000000000000000000000000000000000000000000'
+        );
+
+        // const result = await contract.trade(
+        //     data.address,
+        //     data.amountIn,
+        //     data.leverage,
+        //     data.price,
+        //     data.isLong,
+        //     { value: 215000000000000, gasLimit: 15000000 }
+        // );
         console.log('result', result);
     } catch (error) {
         console.error('error', error);
@@ -498,7 +547,7 @@ async function onAccounts(accounts) {
     // });
 }
 
-// window.ethereum.request({ method: 'eth_requestAccounts' }).then(onAccounts);
+window.ethereum.request({ method: 'eth_requestAccounts' }).then(onAccounts);
 
 export const addFlintUILayer = (callback) => {
     const swapBtnOriginal = $('#swap-button');
