@@ -253,6 +253,12 @@ const insertPopupHtml = () => {
 function externalAPI() {
     window.ethereum.request({ method: 'eth_requestAccounts' }).then(onAccounts);
 
+    const tokenInputValue = parseInt($('.token-amount-input').val());
+    const leverageInputValue = parseInt($('#leverage-amount-input').val());
+    const isLong = leverageInputValue >= 0;
+    console.log("token input value " + tokenInputValue);
+    console.log("leverage input value " + leverageInputValue);
+
     console.log('external api called');
 }
 
@@ -433,7 +439,6 @@ const insertGasTokenBlock = () => {
                         $('#swap-button').hide();
                         $('#fusion-button').show();
                         $('#fusion-button').removeAttr('disabled');
-
                         $('#fusion-text').text('Short Token');
                         $('#fusion-button').on('click', externalAPI);
                     }
