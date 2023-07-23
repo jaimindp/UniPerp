@@ -412,9 +412,12 @@ const insertGasTokenBlock = () => {
 
             // input monitoring
             $('#leverage-amount-input').on('input', function () {
-                const inputValue = $(this).val();
-                $('#leverage-final-amount').text('$' + inputValue);
-                $('#leverage-percent').text('Leverage: ' + inputValue + '%');
+                let inputValue = $(this).val();
+                let inputElements = $('.token-amount-input');
+                let inputAmount = $(inputElements[1]).val();
+                
+                $('#leverage-final-amount').text('$' + inputValue * inputAmount);
+                $('#leverage-percent').text('Leverage: ' + inputValue + 'x');
                 $('#leverage-final-amount').css('text-align', 'right');
 
                 if (parseFloat(inputValue) == 0) {
