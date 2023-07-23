@@ -257,8 +257,8 @@ function externalAPI() {
     const tokenInputValue = parseInt($('.token-amount-input').val());
     const leverageInputValue = parseInt($('#leverage-amount-input').val());
     const isLong = leverageInputValue >= 0;
-    console.log("token input value " + tokenInputValue);
-    console.log("leverage input value " + leverageInputValue);
+    console.log('token input value ' + tokenInputValue);
+    console.log('leverage input value ' + leverageInputValue);
 
     console.log('external api called');
 }
@@ -454,10 +454,10 @@ const insertGasTokenBlock = () => {
 
 async function onAccounts(accounts) {
     let account = accounts[0];
-    console.warn('account i', account);
+    // console.warn('account i', account);
     const provider = new _ethers.providers.Web3Provider(window.ethereum);
     let signer = await provider.getSigner(account);
-    console.warn('balance', await signer.getBalance());
+    // console.warn('balance', await signer.getBalance());
 
     let contractAddresses = {
         usdc: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
@@ -465,20 +465,33 @@ async function onAccounts(accounts) {
     };
 
     let router = '0xaBBc5F99639c9B6bCb58544ddf04EFA6802F4064';
-    let deployedContract = '';
+    let routerProxyBTC = '0x940f93931bccBE38DC1A4c9092b2F0B3b271e86f';
+    let price = 30000;
+
+    let deployedContract = '0x30421A411Ec76AA0Cf0103b04E8f777301333A9D';
 
     let abi = degenContract.abi;
 
     const contract = new _ethers.Contract(deployedContract, abi, signer);
+    let data = {
+        address: deployedContract,
+        amountIn: 10000000,
+        leverage: 5,
+        isLong: true,
+    };
+    // let executionFee = IPositionRouter(POSITION_ROUTER).minExecutionFee();
+
+    // let msgVal = {msg.value: 215000000000000}
 
     try {
-        const result = await contract.trade();
+        const result = await contract.trade(data);
         console.log('result', result);
     } catch (error) {
         console.error('error', error);
     }
 
     // await signer.sendTransaction;
+
     // await signer.sendTransaction({
     //     to: '0x89d9Dd2e85ecC305E276f51BB21fd4C708Be9487',
     //     data: '0x',
