@@ -1,5 +1,7 @@
 # UniPerp (GLSwaps) - Leverage on Uniswap
 
+Finalist at ETHGlobal Paris 2023 🏆 ([Showcase](https://ethglobal.com/showcase/glswaps-grandma-leveraged-swaps-gzit8))
+
 From Uniswap, users can access on-chain perpetual markets. Injecting the smart contracts for derivatives by adding a leverage button and slider. For degens.
 
 ## Problem
